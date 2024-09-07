@@ -13,3 +13,7 @@ vim.cmd("set shiftwidth=2")
 
 -- Editor parameters
 vim.opt.ttimeoutlen = 10
+
+
+
+
