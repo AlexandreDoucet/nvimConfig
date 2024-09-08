@@ -9,8 +9,9 @@ return {
 
   config = function()
     --vim.keymap.set('n','<leader>n', ':Neotree filesystem toggle left<CR>') -- toggles the file system visibility
-    vim.keymap.set('n','<leader>n', ':Neotree filesystem toggle reveal left<CR>') -- toggles the file system visibility
-  end 
+    vim.keymap.set('n','<leader><leader>', ':Neotree filesystem toggle show left<CR>') -- toggles the file system visibility
+    vim.keymap.set('n','<leader>n', ':Neotree filesystem focus left<CR>') -- toggles the file system visibility
+  end
 
 }
 
