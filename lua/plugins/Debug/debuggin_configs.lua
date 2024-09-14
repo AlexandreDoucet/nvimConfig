@@ -12,6 +12,7 @@ return {
 			local dapui = require("dapui")
 
       require("dapui").setup()
+      
 
 			dap.listeners.before.attach.dapui_config = function()
 				dapui.open()
@@ -32,5 +33,19 @@ return {
 			vim.keymap.set("n", "<F12>", dap.step_out, {})
 			vim.keymap.set("n", "<F9>", dap.toggle_breakpoint, {})
 		end,
-	},
+	},{
+    
+    "jay-babu/mason-nvim-dap.nvim",
+    event = "VeryLazy",
+    dependencies = {
+		"mfussenegger/nvim-dap",
+    "williamboman/mason.nvim"
+
+    },
+    opts = {
+      handlers = {},
+      ensure_installed = {'codelldb'}
+    }
+
+  }
 }

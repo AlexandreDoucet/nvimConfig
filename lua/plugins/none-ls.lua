@@ -13,8 +13,8 @@ return {
         null_ls.builtins.formatting.black,
         null_ls.builtins.formatting.isort,
 
-
-
+        --c++
+        null_ls.builtins.formatting.clang_format
 			},
 		})
 		vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
