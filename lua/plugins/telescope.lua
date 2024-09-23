@@ -1,6 +1,6 @@
 local function find_files_and_escape()
   require("telescope.builtin").find_files()
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
+--  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
 end
 
 return { --Telescope

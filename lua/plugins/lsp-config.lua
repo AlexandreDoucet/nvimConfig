@@ -1,5 +1,4 @@
 return {
-
 	{
 		"williamboman/mason.nvim",
 	},
@@ -9,12 +8,11 @@ return {
 		lazy = false,
 		opts = {
 			automatic_installation = true,
-			--ensure_installed = { "lua_ls", "jedi_language_server", "clangd" },
 		},
 	},
 	{
 		"neovim/nvim-lspconfig",
-    dependecies = {},
+		dependecies = {},
 		lazy = false,
 		config = function()
 			local servers = { "lua_ls", "jedi_language_server", "clangd" }
@@ -25,7 +23,6 @@ return {
 			require("mason-lspconfig").setup({ ensure_installed = servers })
 
 			local on_attach = function()
-				vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 				vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
 				vim.keymap.set("n", "gD", vim.lsp.buf.declaration, {})
 				vim.keymap.set("n", "gi", vim.lsp.buf.implementation, {})
@@ -34,11 +31,33 @@ return {
 			end
 
 			for _, lsp in ipairs(servers) do
+				if lsp == "rust_analyzer" then
+				end
+
 				lspconfig[lsp].setup({
 					on_attach = on_attach,
 					capabilities = capabilities,
 				})
 			end
+		end,
+	},
+	{
+		"mrcjkb/rustaceanvim",
+		version = "^5", -- Recommended
+		lazy = false, -- This plugin is already lazy
+		config = function()
+			local mason_registry = require("mason-registry")
+			local codelldb = mason_registry.get_package("codelldb")
+			local extension_path = codelldb:get_install_path() .. "/extension/"
+			local codelldb_path = extension_path .. "adapter/codelldb"
+			local liblldb_path = extension_path .. "lldb/lib/liblldb.dylib"
+			local cfg = require("rustaceanvim.config")
+
+			vim.g.rustaceanvim = {
+				dap = {
+					adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
+				},
+			}
 		end,
 	},
 }
