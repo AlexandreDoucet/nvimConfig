@@ -3,7 +3,8 @@ A simple and modular neovim config configured for python and rust.
 
 #Installation
 
-Linux
+Linux:
+
 Use the following command to obtain the install script and run it.
 
 **Back up you old configurations, this will clear both the configurations and any packages.
