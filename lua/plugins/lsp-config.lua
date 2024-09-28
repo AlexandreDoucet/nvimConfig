@@ -50,11 +50,12 @@ return {
 		dependencies = {
 			"neovim/nvim-lspconfig",
 			"williamboman/mason.nvim", -- Ensure this is loaded first
+      "jay-babu/mason-nvim-dap.nvim",
 		},
 		config = function()
+      print("rustaceanvim function is running")
 			local mason_registry = require("mason-registry")
 			local codelldb = mason_registry.get_package("codelldb")
-      print("hit")
 			if not codelldb then
 				vim.notify("codelldb package not found, make sure it's installed with Mason", vim.log.levels.ERROR)
 				return
