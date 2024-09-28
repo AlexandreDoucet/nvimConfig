@@ -17,7 +17,7 @@ return {
     },
     lazy = false,
     config = function()
-      local servers = { "lua_ls", "jedi_language_server", "clangd" }
+      local servers = { "lua_ls", "jedi_language_server", "clangd", "rust_analyzer" }
       local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
@@ -33,9 +33,6 @@ return {
       end
 
       for _, lsp in ipairs(servers) do
-        if lsp == "rust_analyzer" then
-        end
-
         lspconfig[lsp].setup({
           on_attach = on_attach,
           capabilities = capabilities,
@@ -45,24 +42,28 @@ return {
   },
   {
     "mrcjkb/rustaceanvim",
-    version = "^5", -- Recommended
+    version = "^5",
     lazy = false,
     dependencies = {
       "neovim/nvim-lspconfig",
-      "williamboman/mason.nvim", -- Ensure this is loaded first
+      "williamboman/mason.nvim",
       "jay-babu/mason-nvim-dap.nvim",
     },
     config = function()
       print("rustaceanvim function is running")
       local mason_registry = require("mason-registry")
-      local has_codelldb = mason_registry.has_package("codelldb")
-      if has_codelldb then
-        local codelldb = mason_registry.get_package("codelldb")
-        if not codelldb then
-          vim.notify("codelldb package not found, make sure it's installed with Mason", vim.log.levels.ERROR)
-          return
-        end
+      if not mason_registry.has_package("codelldb") then
+        vim.notify("codelldb not installed yet. Please install it with Mason.", vim.log.levels.WARN)
+        return
       end
+
+      local codelldb = mason_registry.get_package("codelldb")
+      if not codelldb:is_installed() then
+        vim.notify("Installing codelldb...", vim.log.levels.INFO)
+        codelldb:install()
+        return
+      end
+
       local extension_path = codelldb:get_install_path() .. "/extension/"
       local codelldb_path = extension_path .. "adapter/codelldb"
       local liblldb_path = extension_path .. "lldb/lib/liblldb.dylib"
