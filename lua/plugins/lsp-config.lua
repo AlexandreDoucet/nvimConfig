@@ -53,7 +53,7 @@ return {
       print("rustaceanvim function is running")
       local mason_registry = require("mason-registry")
       if not mason_registry.has_package("codelldb") then
-        vim.notify("codelldb not installed yet. Please install it with Mason.", vim.log.levels.WARN)
+        vim.notify("codelldb not installed yet. Installation will finish the the next time neovim is opened, please restart if you need functionalities from codelldb.", vim.log.levels.WARN)
         return
       end
 
