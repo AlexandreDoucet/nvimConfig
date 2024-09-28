@@ -11,7 +11,7 @@ Use the following command to obtain the install script and run it.
 
 ```
 
-curl -O https://github.com/AlexandreDoucet/nvimConfig/blob/master/installs.sh
+wget https://raw.githubusercontent.com/AlexandreDoucet/nvimConfig/master/installs.sh
 chmod +x installs.sh
 ./installs.sh
 
