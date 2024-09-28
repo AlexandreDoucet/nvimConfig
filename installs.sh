@@ -48,9 +48,11 @@ sudo apt install -y python3.11
 sudo apt install -y python3.11-venv
 sudo apt install unzip
 
+if ! command -v rustup &> /dev/null
+then
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+  rustup component add rust-analyzer
 
-#curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
-#rustup component add rust-analyzer
+fi
 
 
