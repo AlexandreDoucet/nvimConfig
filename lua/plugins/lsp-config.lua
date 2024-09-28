@@ -20,7 +20,7 @@ return {
     lazy = false,
     config = function()
       -- List of LSP servers to install and configure
-      local servers = { "lua_ls", "jedi_language_server", "clangd", "rust_analyzer" }
+      local servers = { "lua_ls", "jedi_language_server", "clangd" }
       local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
