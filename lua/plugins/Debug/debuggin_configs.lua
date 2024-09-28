@@ -32,6 +32,7 @@ return {
       vim.keymap.set("n", "<F12>", dap.step_out, {})
       vim.keymap.set("n", "<F9>", dap.toggle_breakpoint, {})
 
+
     end,
   },
   {
@@ -44,7 +45,7 @@ return {
     },
     opts = {
       handlers = {},
-      ensure_installed = { "codelldb","python" },
+      ensure_installed = { "codelldb", "python" },
     },
   },
 }
