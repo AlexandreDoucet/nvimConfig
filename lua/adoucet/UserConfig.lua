@@ -3,6 +3,12 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
+--Save file on ctrl - s
+vim.keymap.set({"i","x","n","s"},"<C-s>","<cmd>w<cr><esc>",{desc = "Save File"})
+
+--Hover window
+vim.api.nvim_set_keymap('n', '<leader>k', '<cmd>lua vim.lsp.buf.hover()<CR>', { noremap = true, silent = true })
+
 -- change tab settings to 2 spaces
 vim.cmd("set expandtab")
 vim.cmd("set tabstop=2")
@@ -43,7 +49,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     vim.highlight.on_yank()
   end,
 })
-
 
 
 
