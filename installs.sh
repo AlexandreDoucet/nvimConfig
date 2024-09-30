@@ -1,7 +1,11 @@
 NVIM_FOLDER="$HOME/.config/nvim"
 lOCAL_NVIM_FOLDER="$HOME/.local/share/nvim/"
 REPO_URL="https://github.com/AlexandreDoucet/nvimConfig.git"
-
+if command -v git >/dev/null 2>&1; then
+    echo "Git is already installed."
+else
+    echo "Git is not installed. Installing..."
+fi
 
 FOLDERS=("$NVIM_FOLDER" "$lOCAL_NVIM_FOLDER")
 
@@ -50,9 +54,8 @@ sudo apt install unzip
 
 if ! command -v rustup &> /dev/null
 then
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-  rustup component add rust-analyzer
-
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 fi
-
+exec bash
+rustup component add rust-analyzer
 

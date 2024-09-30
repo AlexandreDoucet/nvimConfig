@@ -1,4 +1,5 @@
 return {
+  -- Mason and Mason-LSPConfig for easy LSP management
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = {
@@ -9,6 +10,7 @@ return {
       automatic_installation = true,
     },
   },
+  -- Neovim's LSP configuration with Mason integration
   {
     "neovim/nvim-lspconfig",
     dependencies = {
@@ -17,21 +19,32 @@ return {
     },
     lazy = false,
     config = function()
-      local servers = { "lua_ls", "jedi_language_server", "clangd", "rust_analyzer" }
+      -- List of LSP servers to install and configure
+      local servers = { "lua_ls", "jedi_language_server", "clangd" }
       local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+      -- Setup Mason and Mason-LSPConfig
       require("mason").setup()
-      require("mason-lspconfig").setup({ ensure_installed = servers })
+      require("mason-lspconfig").setup({
+        ensure_installed = servers,
+      })
 
-      local on_attach = function()
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
-        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, {})
-        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, {})
-        vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, {})
-        vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
+      -- On_attach function for LSP key bindings
+      local on_attach = function(_, bufnr)
+        local buf_map = function(mode, lhs, rhs, opts)
+          opts = vim.tbl_extend("force", { buffer = bufnr }, opts or {})
+          vim.keymap.set(mode, lhs, rhs, opts)
+        end
+
+        buf_map("n", "gd", vim.lsp.buf.definition, { desc = "Go to Definition" })
+        buf_map("n", "gD", vim.lsp.buf.declaration, { desc = "Go to Declaration" })
+        buf_map("n", "gi", vim.lsp.buf.implementation, { desc = "Go to Implementation" })
+        buf_map("n", "<F2>", vim.lsp.buf.rename, { desc = "Rename Symbol" })
+        buf_map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
       end
 
+      -- Setup LSP servers
       for _, lsp in ipairs(servers) do
         lspconfig[lsp].setup({
           on_attach = on_attach,
@@ -40,6 +53,7 @@ return {
       end
     end,
   },
+  -- Rust-specific plugin with DAP (Debug Adapter Protocol) integration
   {
     "mrcjkb/rustaceanvim",
     version = "^5",
@@ -50,10 +64,11 @@ return {
       "jay-babu/mason-nvim-dap.nvim",
     },
     config = function()
-      print("rustaceanvim function is running")
       local mason_registry = require("mason-registry")
+
+      -- Ensure codelldb is installed or notify user
       if not mason_registry.has_package("codelldb") then
-        vim.notify("codelldb not installed yet. Installation will finish the the next time neovim is opened, please restart if you need functionalities from codelldb.", vim.log.levels.WARN)
+        vim.notify("codelldb not installed yet. Please restart Neovim after installation.", vim.log.levels.WARN)
         return
       end
 
@@ -64,6 +79,7 @@ return {
         return
       end
 
+      -- Setup Rust DAP with codelldb
       local extension_path = codelldb:get_install_path() .. "/extension/"
       local codelldb_path = extension_path .. "adapter/codelldb"
       local liblldb_path = extension_path .. "lldb/lib/liblldb.dylib"
