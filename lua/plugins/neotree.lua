@@ -50,7 +50,17 @@ return {
 	},
 
 	config = function(_, opts)
-		vim.keymap.set("n", "<leader>n", ":Neotree filesystem toggle left reveal<CR>") -- toggles the file system visibility
+		local function is_neotree_focused()
+			return vim.bo.filetype == "neo-tree"
+		end
+		vim.keymap.set("n", "<leader>n", function()
+			if is_neotree_focused() then
+				vim.cmd("Neotree filesystem close left")
+			else
+				vim.cmd("Neotree filesystem focus left reveal")
+			end
+		end)
+		--vim.keymap.set("n", "<leader>n", ":Neotree filesystem toggle left reveal<CR>") -- toggles the file system visibility
 		vim.keymap.set("n", "<leader>m", ":Neotree filesystem close left<CR>") -- toggles the file system visibility
 		vim.keymap.set("n", "<leader>gs", ":Neotree git_status float<CR>")
 
